@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify - Web Player: Music for everyone</title>
+
+    <link rel="icon" type="image/x-icon" href="https://open.spotify.com/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/Utility.css">
+</head>
+
+<body>
+    <div class="container flex bg-black">
+
+        <!-- Left Side  -->
+        <div class="left ">
+
+            <div class="close">
+                <img src="svgs/close.svg" alt="closeCross">
+            </div>
+            <!-- Top  Box (Left Side)  -->
+            <div class="home bg-grey rounded m-1 p-1">
+                <div class="logo"><img class="invert" src="svgs/logo.svg" alt="logo"></div>
+                <ul>
+                    <li><img class="invert" src="svgs/home.svg" alt="home">Home</li>
+                    <li><img class="invert" src="svgs/search.svg" alt="search">Search</li>
+                </ul>
+            </div>
+
+            <!-- Bottom Box (Left Side)  -->
+            <div class="library bg-grey rounded m-1 p-1">
+
+                <div class="heading">
+                    <img class="invert" src="svgs/playlist.svg" alt="library">
+                    <h2>
+                        Your Library
+                    </h2>
+                </div>
+                <div class="songList">
+                    <ul>
+
+                    </ul>
+                </div>
+
+                <!-- Footer -->
+                <div class="footer">
+                    <div><a href="https://www.spotify.com/sg-en/legal/"><span>Legal</span></a></div>
+                    <div><a href="https://www.spotify.com/sg-en/privacy/"><span>Privacy Center</span></a></div>
+                    <div><a href="https://www.spotify.com/sg-en/legal/privacy-policy/"><span>Privacy Policy</span></a>
+                    </div>
+                    <div><a href="https://www.spotify.com/sg-en/legal/cookies-policy/"><span>Cookies</span></a></div>
+                    <div><a href="https://www.spotify.com/sg-en/legal/privacy-policy/#s3"><span>About Ads</span></a>
+                    </div>
+                    <div><a href="https://www.spotify.com/sg-en/accessibility/"><span>Accessibility</span></a></div>
+                    <div><a href="https://www.spotify.com/legal/cookies-policy/"><span>Cookies</span></a></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side  -->
+        <div class="right bg-grey rounded">
+
+            <!-- Header  -->
+            <div class="header rounded">
+                <div class="nav">
+                    <img class="hamburger" src="svgs/hamburger.svg" alt="hamburger">
+                    <img class="arr" src="svgs/left arrow.svg" alt="left arrow">
+                    <img class="arr" src="svgs/right arrow.svg" alt="right arrow">
+                </div>
+                <div class="buttons">
+                    <button class="signBtn">Sign Up</button>
+                    <button class="loginBtn">Log in</button>
+                </div>
+            </div>
+            <!-- Playlists -->
+            <div class="playlists">
+                <h2 class="spotifyHeading">Spotify Playlists</h2>
+
+                <div class="cardContainer">
+
+                    <div data-folder="ncs" class="card">
+                        <img src="/songs/ncs/img.jpg" alt="img">
+                        <div class="play">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none">
+                                <circle cx="12" cy="12" r="10" stroke="#121212" stroke-width="1" fill="#1ed760" />
+                                <path
+                                    d="M15.4531 12.3948C15.3016 13.0215 14.5857 13.4644 13.1539 14.3502C11.7697 15.2064 11.0777 15.6346 10.5199 15.4625C10.2893 15.3913 10.0793 15.2562 9.90982 15.07C9.5 14.6198 9.5 13.7465 9.5 12C9.5 10.2535 9.5 9.38018 9.90982 8.92995C10.0793 8.74381 10.2893 8.60868 10.5199 8.53753C11.0777 8.36544 11.7697 8.79357 13.1539 9.64983C14.5857 10.5356 15.3016 10.9785 15.4531 11.6052C15.5156 11.8639 15.5156 12.1361 15.4531 12.3948Z"
+                                    fill="#121212" />
+                            </svg>
+                        </div>
+                        <h2>Bollywood Songs</h2>
+                        <p>Classical Bollywood Songs</p>
+                    </div>
+
+                    <div data-folder="Atif"  class="card">
+                        <img src="/songs/Atif/img.jpg" alt="img">
+                        <div class="play">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none">
+                                <circle cx="12" cy="12" r="10" stroke="#121212" stroke-width="1" fill="#1ed760" />
+                                <path
+                                    d="M15.4531 12.3948C15.3016 13.0215 14.5857 13.4644 13.1539 14.3502C11.7697 15.2064 11.0777 15.6346 10.5199 15.4625C10.2893 15.3913 10.0793 15.2562 9.90982 15.07C9.5 14.6198 9.5 13.7465 9.5 12C9.5 10.2535 9.5 9.38018 9.90982 8.92995C10.0793 8.74381 10.2893 8.60868 10.5199 8.53753C11.0777 8.36544 11.7697 8.79357 13.1539 9.64983C14.5857 10.5356 15.3016 10.9785 15.4531 11.6052C15.5156 11.8639 15.5156 12.1361 15.4531 12.3948Z"
+                                    fill="#121212" />
+                            </svg>
+                        </div>
+                        <h2>Atif Aslam</h2>
+                        <p>Iconic Songs of Atif Aslam</p>
+                    </div>
+
+                    <div data-folder="Diljit"  class="card">
+                        <img src="/songs/Diljit/img.jpg" alt="img">
+                        <div class="play">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none">
+                                <circle cx="12" cy="12" r="10" stroke="#121212" stroke-width="1" fill="#1ed760" />
+                                <path
+                                    d="M15.4531 12.3948C15.3016 13.0215 14.5857 13.4644 13.1539 14.3502C11.7697 15.2064 11.0777 15.6346 10.5199 15.4625C10.2893 15.3913 10.0793 15.2562 9.90982 15.07C9.5 14.6198 9.5 13.7465 9.5 12C9.5 10.2535 9.5 9.38018 9.90982 8.92995C10.0793 8.74381 10.2893 8.60868 10.5199 8.53753C11.0777 8.36544 11.7697 8.79357 13.1539 9.64983C14.5857 10.5356 15.3016 10.9785 15.4531 11.6052C15.5156 11.8639 15.5156 12.1361 15.4531 12.3948Z"
+                                    fill="#121212" />
+                            </svg>
+                        </div>
+                        <h2>Diljit Dosanjh</h2>
+                        <p>Iconic Songs of Diljit Dosanjh From His Album "GHOST"</p>
+                    </div>
+
+                    <div data-folder="Karan"  class="card">
+                        <img src="/songs/Karan/img.jpg" alt="img">
+                        <div class="play">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none">
+                                <circle cx="12" cy="12" r="10" stroke="#121212" stroke-width="1" fill="#1ed760" />
+                                <path
+                                    d="M15.4531 12.3948C15.3016 13.0215 14.5857 13.4644 13.1539 14.3502C11.7697 15.2064 11.0777 15.6346 10.5199 15.4625C10.2893 15.3913 10.0793 15.2562 9.90982 15.07C9.5 14.6198 9.5 13.7465 9.5 12C9.5 10.2535 9.5 9.38018 9.90982 8.92995C10.0793 8.74381 10.2893 8.60868 10.5199 8.53753C11.0777 8.36544 11.7697 8.79357 13.1539 9.64983C14.5857 10.5356 15.3016 10.9785 15.4531 11.6052C15.5156 11.8639 15.5156 12.1361 15.4531 12.3948Z"
+                                    fill="#121212" />
+                            </svg>
+                        </div>
+                        <h2>Karan Aujla</h2>
+                        <p>Iconic Songs of Karan Aujla From His Album "Admirin"</p>
+                    </div>
+
+                </div>
+
+                <!-- PlayBar -->
+                <div class="playBar">
+                    <div class="seekbar">
+                        <div class="circle">
+
+                        </div>
+                    </div>
+                    <div class="aboveBar">
+                        <div class="songText"></div>
+
+                        <div class="barBtn">
+                            <img id="previous" src="svgs/previous.svg" alt="previous">
+                            <img id="play" src="svgs/play.svg" alt="play">
+                            <img id="next" src="svgs/next.svg" alt="next">
+                        </div>
+                        <div class="songDuration"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/Js/index.js"></script>
+</body>
+
+</html>
