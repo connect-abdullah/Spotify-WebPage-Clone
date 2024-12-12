@@ -11,7 +11,7 @@ A responsive Spotify clone created with HTML, CSS, and a limited 125 MB database
 
 #### Is Database connect to it ?
 
-Yes, but limited ( 125mb )
+Yes, but limited ( 125mb ).
 
 #### Is it responsive ?
 
