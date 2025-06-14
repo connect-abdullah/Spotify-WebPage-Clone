@@ -21,43 +21,112 @@ function secondsToMinutesSeconds(seconds) {
 async function getSongs(folder) {
     try {
         currFolder = folder;
-        // Use relative path for local development and absolute path for production
         const baseUrl = window.location.hostname === 'localhost' ? '' : '/Spotify-WebPage-Clone';
-        const response = await fetch(`${baseUrl}/${folder}/`);
         
-        if (!response.ok) {
-            throw new Error(`Failed to fetch songs from ${folder}`);
+        // Create a list of common audio file extensions
+        const audioExtensions = ['.mp3', '.wav', '.ogg', '.m4a'];
+        
+        // Get the folder name from the path
+        const folderName = folder.split('/').pop();
+        
+        // Create a list of songs based on the folder structure
+        songs = [];
+        const songUL = document.querySelector(".songList").getElementsByTagName("ul")[0];
+        songUL.innerHTML = "";
+
+        // Function to check if a file is an audio file
+        const isAudioFile = (filename) => {
+            return audioExtensions.some(ext => filename.toLowerCase().endsWith(ext));
+        };
+
+        // Function to get song name from filename
+        const getSongName = (filename) => {
+            return filename.replace(/\.[^/.]+$/, ""); // Remove file extension
+        };
+
+        // Try to fetch the directory listing
+        try {
+            const response = await fetch(`${baseUrl}/${folder}/`);
+            if (response.ok) {
+                const text = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+                const links = doc.getElementsByTagName('a');
+                
+                for (const link of links) {
+                    const href = link.getAttribute('href');
+                    if (href && isAudioFile(href)) {
+                        songs.push(href);
+                    }
+                }
+            }
+        } catch (error) {
+            console.warn('Directory listing not available, using fallback method');
         }
 
-        const text = await response.text();
-        const div = document.createElement("div");
-        div.innerHTML = text;
+        // If no songs found through directory listing, try to load them directly
+        if (songs.length === 0) {
+            // Try to load some common song names for the folder
+            const commonSongs = {
+                'ncs': [
+                    'Law Lag Gaye - Jolly LLB.mp3',
+                    'Dil Leke - Wanted.mp3',
+                    'Desi Beat - Bodyguard.mp3',
+                    'Bu Kadar Mi - Emre Altug.mp3',
+                    'Banjaara - Ek Tha Tiger.mp3',
+                    'Balma - Khiladi 786.mp3',
+                    'Balam Pichkar - YJHD.mp3',
+                    'Badtameez Dil - YJHD.mp3'
+                ],
+                'Atif': [
+                    'Aa Bhi Jaa.mp3',
+                    'Allah Duhai Hai.mp3',
+                    'Be Intehaan.mp3',
+                    'Dil Diyan Gallan.mp3',
+                    'Dekhte Dekhte.mp3',
+                    'Go.mp3',
+                    'Jeena Jeena.mp3'
+                ],
+                'Karan': [
+                    'You.mp3',
+                    'WYTB.mp3',
+                    'Try Me.mp3',
+                    'Take It Easy.mp3',
+                    'Jee Ni Lagda.mp3',
+                    'Gangsta.mp3',
+                    'Champions Anthem.mp3',
+                    'Bachke Bachke.mp3',
+                    'Admirin You.mp3'
+                ],
+                'Diljit': [
+                    'Whatcha Doin.mp3',
+                    'Stars.mp3',
+                    'Psychotic.mp3',
+                    'Poppin.mp3',
+                    'Kinni Kinni.mp3',
+                    'Kehkashan.mp3',
+                    'Jatt Vailly.mp3',
+                    'Icon.mp3',
+                    'Bad Habits.mp3'
+                ]
+            };
 
-        const as = div.getElementsByTagName("a");
-        songs = [];
-        
-        for (let index = 0; index < as.length; index++) {
-            const element = as[index];
-            if (element.href.endsWith(".mp3")) {
-                const songPath = element.href.split(`/${folder}/`)[1];
-                if (songPath) {
-                    songs.push(songPath);
-                }
+            if (commonSongs[folderName]) {
+                songs = commonSongs[folderName];
             }
         }
 
-        const songUL = document.querySelector(".songList").getElementsByTagName("ul")[0];
-        songUL.innerHTML = "";
-        
+        // Display songs in the UI
         if (songs.length === 0) {
             songUL.innerHTML = "<li class='songInfo'><div class='songName'>No songs found</div></li>";
             return songs;
         }
 
         for (const song of songs) {
+            const songName = getSongName(song);
             songUL.innerHTML = songUL.innerHTML + `
             <li class="songInfo">
-            <div class="songName">${decodeURIComponent(song.replaceAll("%20", " "))}</div>
+            <div class="songName">${songName}</div>
             <img class="libraryPlay" src="${baseUrl}/svgs/Library Play.svg" alt="playLibrary"> </li>`;
         }
 
@@ -66,7 +135,10 @@ async function getSongs(folder) {
             e.addEventListener("click", element => {
                 const songName = e.querySelector(".songName").innerHTML.trim();
                 if (songName) {
-                    playMusic(songName);
+                    const songFile = songs.find(s => getSongName(s) === songName);
+                    if (songFile) {
+                        playMusic(songFile);
+                    }
                 }
             });
         });
@@ -99,7 +171,7 @@ const playMusic = (track, pause = false) => {
             play.src = `${baseUrl}/svgs/pause.svg`;
         }
         
-        document.querySelector(".songText").innerHTML = decodeURIComponent(track);
+        document.querySelector(".songText").innerHTML = track.replace(/\.[^/.]+$/, "");
         document.querySelector(".songDuration").innerHTML = "00:00 / 00:00";
     } catch (error) {
         console.error("Error in playMusic:", error);
