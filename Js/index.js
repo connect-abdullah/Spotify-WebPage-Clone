@@ -18,13 +18,19 @@ function secondsToMinutesSeconds(seconds) {
     return `${formattedMinutes}:${formattedSeconds}`;
 }
 
+// Function to get the correct base URL
+function getBaseUrl() {
+    // Check if we're on Vercel
+    if (window.location.hostname.includes('vercel.app')) {
+        return ''; // On Vercel, we don't need the /Spotify-WebPage-Clone prefix
+    }
+    return '/Spotify-WebPage-Clone'; // Local development
+}
+
 async function getSongs(folder) {
     try {
         currFolder = folder;
-        const baseUrl = window.location.hostname === 'localhost' ? '' : '/Spotify-WebPage-Clone';
-        
-        // Create a list of common audio file extensions
-        const audioExtensions = ['.mp3', '.wav', '.ogg', '.m4a'];
+        const baseUrl = getBaseUrl();
         
         // Get the folder name from the path
         const folderName = folder.split('/').pop();
@@ -34,87 +40,58 @@ async function getSongs(folder) {
         const songUL = document.querySelector(".songList").getElementsByTagName("ul")[0];
         songUL.innerHTML = "";
 
-        // Function to check if a file is an audio file
-        const isAudioFile = (filename) => {
-            return audioExtensions.some(ext => filename.toLowerCase().endsWith(ext));
-        };
-
         // Function to get song name from filename
         const getSongName = (filename) => {
             return filename.replace(/\.[^/.]+$/, ""); // Remove file extension
         };
 
-        // Try to fetch the directory listing
-        try {
-            const response = await fetch(`${baseUrl}/${folder}/`);
-            if (response.ok) {
-                const text = await response.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(text, 'text/html');
-                const links = doc.getElementsByTagName('a');
-                
-                for (const link of links) {
-                    const href = link.getAttribute('href');
-                    if (href && isAudioFile(href)) {
-                        songs.push(href);
-                    }
-                }
-            }
-        } catch (error) {
-            console.warn('Directory listing not available, using fallback method');
-        }
+        // Define songs for each folder
+        const commonSongs = {
+            'ncs': [
+                'Law Lag Gaye - Jolly LLB.mp3',
+                'Dil Leke - Wanted.mp3',
+                'Desi Beat - Bodyguard.mp3',
+                'Bu Kadar Mi - Emre Altug.mp3',
+                'Banjaara - Ek Tha Tiger.mp3',
+                'Balma - Khiladi 786.mp3',
+                'Balam Pichkar - YJHD.mp3',
+                'Badtameez Dil - YJHD.mp3'
+            ],
+            'Atif': [
+                'Aa Bhi Jaa.mp3',
+                'Allah Duhai Hai.mp3',
+                'Be Intehaan.mp3',
+                'Dil Diyan Gallan.mp3',
+                'Dekhte Dekhte.mp3',
+                'Go.mp3',
+                'Jeena Jeena.mp3'
+            ],
+            'Karan': [
+                'You.mp3',
+                'WYTB.mp3',
+                'Try Me.mp3',
+                'Take It Easy.mp3',
+                'Jee Ni Lagda.mp3',
+                'Gangsta.mp3',
+                'Champions Anthem.mp3',
+                'Bachke Bachke.mp3',
+                'Admirin You.mp3'
+            ],
+            'Diljit': [
+                'Whatcha Doin.mp3',
+                'Stars.mp3',
+                'Psychotic.mp3',
+                'Poppin.mp3',
+                'Kinni Kinni.mp3',
+                'Kehkashan.mp3',
+                'Jatt Vailly.mp3',
+                'Icon.mp3',
+                'Bad Habits.mp3'
+            ]
+        };
 
-        // If no songs found through directory listing, try to load them directly
-        if (songs.length === 0) {
-            // Try to load some common song names for the folder
-            const commonSongs = {
-                'ncs': [
-                    'Law Lag Gaye - Jolly LLB.mp3',
-                    'Dil Leke - Wanted.mp3',
-                    'Desi Beat - Bodyguard.mp3',
-                    'Bu Kadar Mi - Emre Altug.mp3',
-                    'Banjaara - Ek Tha Tiger.mp3',
-                    'Balma - Khiladi 786.mp3',
-                    'Balam Pichkar - YJHD.mp3',
-                    'Badtameez Dil - YJHD.mp3'
-                ],
-                'Atif': [
-                    'Aa Bhi Jaa.mp3',
-                    'Allah Duhai Hai.mp3',
-                    'Be Intehaan.mp3',
-                    'Dil Diyan Gallan.mp3',
-                    'Dekhte Dekhte.mp3',
-                    'Go.mp3',
-                    'Jeena Jeena.mp3'
-                ],
-                'Karan': [
-                    'You.mp3',
-                    'WYTB.mp3',
-                    'Try Me.mp3',
-                    'Take It Easy.mp3',
-                    'Jee Ni Lagda.mp3',
-                    'Gangsta.mp3',
-                    'Champions Anthem.mp3',
-                    'Bachke Bachke.mp3',
-                    'Admirin You.mp3'
-                ],
-                'Diljit': [
-                    'Whatcha Doin.mp3',
-                    'Stars.mp3',
-                    'Psychotic.mp3',
-                    'Poppin.mp3',
-                    'Kinni Kinni.mp3',
-                    'Kehkashan.mp3',
-                    'Jatt Vailly.mp3',
-                    'Icon.mp3',
-                    'Bad Habits.mp3'
-                ]
-            };
-
-            if (commonSongs[folderName]) {
-                songs = commonSongs[folderName];
-            }
-        }
+        // Get songs for the current folder
+        songs = commonSongs[folderName] || [];
 
         // Display songs in the UI
         if (songs.length === 0) {
@@ -159,8 +136,9 @@ const playMusic = (track, pause = false) => {
             return;
         }
 
-        const baseUrl = window.location.hostname === 'localhost' ? '' : '/Spotify-WebPage-Clone';
-        currentSong.src = `${baseUrl}/${currFolder}/${track}`;
+        const baseUrl = getBaseUrl();
+        const folderName = currFolder.split('/').pop();
+        currentSong.src = `${baseUrl}/songs/${folderName}/${track}`;
         
         if (!pause) {
             currentSong.play()
@@ -192,10 +170,10 @@ async function main() {
             if (currentSong.paused) {
                 currentSong.play()
                     .catch(error => console.error("Error playing audio:", error));
-                play.src = `${window.location.hostname === 'localhost' ? '' : '/Spotify-WebPage-Clone'}/svgs/pause.svg`;
+                play.src = `${getBaseUrl()}/svgs/pause.svg`;
             } else {
                 currentSong.pause();
-                play.src = `${window.location.hostname === 'localhost' ? '' : '/Spotify-WebPage-Clone'}/svgs/play.svg`;
+                play.src = `${getBaseUrl()}/svgs/play.svg`;
             }
         });
 
